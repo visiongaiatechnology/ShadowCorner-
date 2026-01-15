@@ -1,0 +1,28 @@
+--- Python Müll ---
+
+pycache/
+*.py[cod]
+*$py.class
+
+--- PyInstaller Müll (WICHTIG!) ---
+
+build/
+dist/
+*.spec
+
+--- VS Code / Codium Müll ---
+
+.vscode/
+*.code-workspace
+
+--- Bilder & Assets (Optional, falls du sie nicht im Repo willst) ---
+
+shadow.ico (Wird eh generiert)
+
+shadow_preview.png (Behalten wir aber für die README)
+
+--- Windows Müll ---
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
