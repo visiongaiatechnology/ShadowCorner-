@@ -1,112 +1,80 @@
-❖ SHADOW CORNER v2.0
+# ❖ SHADOW CORNER v2.0
 
-Minimalist. Invisible. Tactical.
-Developed by Vision Gaia Technology (2026)
+![Preview](./assets/shadow_preview.png)
 
-📜 MISSION PARAMETER
+> **Minimalist. Invisible. Tactical.**
+> *Developed by Vision Gaia Technology (2026)*
 
-Shadow Corner ist eine aggressive, minimalistische System-Erweiterung für Microsoft Windows. Sie portiert die "Hot Corner" Funktionalität (bekannt aus MacOS und Linux Gnome) in die Windows-Umgebung – ohne den Ballast herkömmlicher Tools.
+## 📜 MISSION PARAMETER
 
-Das Ziel: Maximale Übersicht mit einer einzigen Geste.
-Bewegen Sie die Maus in die obere linke Bildschirmecke, um sofort die Task-Ansicht (Win+Tab) auszulösen.
+**Shadow Corner** ist eine aggressive, minimalistische System-Erweiterung für Microsoft Windows. Sie portiert die "Hot Corner" Funktionalität (bekannt aus MacOS und Linux Gnome) in die Windows-Umgebung – ohne den Ballast herkömmlicher Tools.
 
-Status: STABLE / PRODUCTION READY
-Architect: KDY // SPACIATMAN
+**Das Ziel:** Maximale Übersicht mit einer einzigen Geste.
+Bewegen Sie die Maus in die **obere linke Bildschirmecke**, um sofort die Task-Ansicht (`Win`+`Tab`) auszulösen.
 
-⚡ CORE ARCHITECTURE (v2.0)
+**Status:** `STABLE / PRODUCTION READY`
+**Architect:** KDY // SPACIATMAN
+
+## ⚡ CORE ARCHITECTURE (v2.0)
 
 Im Gegensatz zu "bloated" Software-Lösungen arbeitet Shadow Corner direkt am Systemkern:
 
-🛡️ Smart Guard (NEU in v2.0):
+* **🛡️ Smart Guard (NEU in v2.0):**
+    * Erkennt automatisch **Vollbildanwendungen** (Games wie CS2/Valorant oder YouTube im F11-Modus).
+    * **IFF-Logik:** Deaktiviert den Sensor temporär, um "Tab-Outs" im Gefecht zu verhindern.
 
-Das System verfügt über eine integrierte IFF-Erkennung (Friend or Foe).
+* **👻 Ghost Mode:**
+    * Läuft unsichtbar. Kein Tray-Icon.
+    * **Ressourcen:** < 10 MB RAM. 0.0% CPU Idle.
 
-Erkennt automatisch Vollbildanwendungen (Games wie CS2/Valorant oder YouTube im F11-Modus).
+* **⚔️ Hostile Neutralization:**
+    * Erkennt und eliminiert beim Start automatisch konkurrierende oder veraltete Prozesse (z.B. "HotCornersWin"), um Konflikte zu vermeiden.
 
-Effekt: Der Sensor wird temporär deaktiviert, um versehentliche "Tab-Outs" während Gefechten zu verhindern.
+* **💎 Stealth Identity:**
+    * Maskiert sich im Task-Manager mit korrekten Metadaten ("Vision Gaia Technology").
 
-👻 Ghost Mode:
+## 👁️ PROOF OF STEALTH
 
-Läuft komplett unsichtbar im Hintergrund. Kein Tray-Icon, das die Taskleiste verstopft.
+Hier sehen Sie die Effizienz und Identität im Task-Manager:
 
-Ressourcenverbrauch: < 10 MB RAM. CPU-Last im Idle: 0.0%.
+### 1. Low Footprint (< 10 MB)
+![Performance](./assets/proof_performance.png)
 
-⚔️ Hostile Neutralization:
+### 2. Corporate Identity (Vision Gaia)
+![Identity](./assets/proof_identity.png)
 
-Erkennt und eliminiert beim Start automatisch konkurrierende oder veraltete Prozesse (z.B. "HotCornersWin"), um Konflikte zu vermeiden.
+## 🛠️ INSTALLATION & DEPLOYMENT
 
-💎 Stealth Identity:
+### OPTION A: PRE-COMPILED BINARY (EMPFOHLEN)
 
-Maskiert sich im Task-Manager mit korrekten Metadaten und dem "Tactical Corner" Icon.
+Keine Installation. Portable Mode.
 
-🛠️ INSTALLATION & DEPLOYMENT
+1.  Laden Sie die neueste `ShadowCorner.exe` unter [**Releases**](../../releases) herunter.
+2.  Starten.
+3.  **Fertig.** (Autostart ist aktiv).
 
-OPTION A: PRE-COMPILED BINARY (EMPFOHLEN)
+### 📦 ARTIFACT VERIFICATION
+Überprüfen Sie die Integrität Ihrer Downloads.
+👉 [**OFFICIAL HASH CHECKER**](https://visiongaia.de/hashchecker/)
 
-Keine Installation notwendig. Portable Mode.
+### OPTION B: BUILD FROM SOURCE
 
-Laden Sie die neueste ShadowCorner.exe unter Releases herunter.
+Für Entwickler.
+Voraussetzungen: Python 3.13+, Pip.
 
-Führen Sie die Datei einmalig aus.
-
-Fertig. Das System ist nun "Armed" und hat sich selbstständig in den Autostart eingetragen.
-
-📦 ARTIFACT VERIFICATION
-
-Vertrauen ist gut, Kontrolle ist besser. Überprüfen Sie die Integrität Ihrer Downloads.
-
-👉 OFFICIAL HASH CHECKER
-
-OPTION B: BUILD FROM SOURCE
-
-Für Agenten, die dem Code misstrauen oder ihn modifizieren wollen.
-
-Voraussetzungen:
-
-Python 3.13+
-
-Pip
-
-Build Sequenz:
-
-Repository klonen:
-
+```bash
 git clone [https://github.com/visiongaiatechnology/ShadowCorner-.git](https://github.com/visiongaiatechnology/ShadowCorner-.git)
-cd ShadowCorner-
-
-
-Abhängigkeiten installieren:
-
 pip install pillow pyinstaller
+build_shadow.bat
+```
 
-
-Kompilieren (One-Click):
-Starten Sie die build_shadow.bat.
-Das fertige Artefakt (Exe) befindet sich anschließend im Ordner dist/.
-
-🧠 LOGIC FLOW
-
-Die Kernlogik (shadow_corner.py) basiert auf einer Endlosschleife mit adaptivem Polling (20ms), um die CPU zu schonen, aber maximale Reaktivität zu gewährleisten.
-
-Auszug aus dem Neural Core:
-
-def main():
-    if getattr(sys, 'frozen', False):
-        neutralize_hostiles() # Clean Environment
-        ensure_persistence()  # Registry Hook
-
-    armed = True 
-    # ... Event Loop mit Smart Guard Check ...
-
-
-⚖️ LIZENZ & CREDITS
+## ⚖️ LIZENZ & CREDITS
 
 Dieses Projekt ist Open Source.
-Lizenziert unter GPLv3
-Developed by Vision Gaia Technology.
+**Lizenziert unter GPLv3**
+**Developed by Vision Gaia Technology.**
 
-Project Architect: KDY // SPACIATMAN
-
-Copyright: © 2026 Vision Gaia Technology
-
-License: Shadow Protocol (Open Source)
+* **Project Architect:** KDY // SPACIATMAN
+* **Copyright:** © 2026 Vision Gaia Technology
+* **License:** Shadow Protocol (Open Source)
+    
