@@ -43,6 +43,12 @@ Hier sehen Sie die Effizienz und Identität im Task-Manager:
 ### 2. Corporate Identity (Vision Gaia)
 ![Identity](./assets/proof_identity.png)
 
+
+
+https://github.com/user-attachments/assets/083fddf5-7fce-41ef-b691-ae58c1a50c86
+
+
+
 ## 🛠️ INSTALLATION & DEPLOYMENT
 
 ### OPTION A: PRE-COMPILED BINARY (EMPFOHLEN)
