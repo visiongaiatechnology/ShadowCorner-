@@ -118,6 +118,13 @@ class MSLLHOOKSTRUCT(ctypes.Structure):
 
 HOOKPROC = ctypes.WINFUNCTYPE(ctypes.c_longlong, ctypes.c_int, wintypes.WPARAM, wintypes.LPARAM)
 
+# Explizite Prototypisierung zur Verhinderung von 64-Bit-Pointer-Kürzungen
+kernel32.GetModuleHandleW.argtypes = [wintypes.LPCWSTR]
+kernel32.GetModuleHandleW.restype = wintypes.HMODULE
+
+kernel32.GetLastError.argtypes = []
+kernel32.GetLastError.restype = wintypes.DWORD
+
 user32.SetWindowsHookExW.argtypes = [ctypes.c_int, HOOKPROC, wintypes.HINSTANCE, wintypes.DWORD]
 user32.SetWindowsHookExW.restype = wintypes.HHOOK
 
@@ -129,6 +136,12 @@ user32.CallNextHookEx.restype = ctypes.c_longlong
 
 user32.GetMessageW.argtypes = [ctypes.POINTER(wintypes.MSG), wintypes.HWND, wintypes.UINT, wintypes.UINT]
 user32.GetMessageW.restype = wintypes.BOOL
+
+user32.TranslateMessage.argtypes = [ctypes.POINTER(wintypes.MSG)]
+user32.TranslateMessage.restype = wintypes.BOOL
+
+user32.DispatchMessageW.argtypes = [ctypes.POINTER(wintypes.MSG)]
+user32.DispatchMessageW.restype = ctypes.c_longlong
 
 user32.MonitorFromPoint.argtypes = [POINT, wintypes.DWORD]
 user32.MonitorFromPoint.restype = wintypes.HMONITOR
@@ -257,7 +270,6 @@ class VGTShadowEngine:
         self._last_trigger_time: float = 0.0
         self._hook_wrapper = HOOKPROC(self._mouse_hook_callback)
 
-        # High-Performance Spatial-Cache-Felder (Verhindert C-Kontextwechsel & GC-Allokationen)
         self._cached_left: int = 0
         self._cached_top: int = 0
         self._cached_right: int = 0
@@ -270,12 +282,10 @@ class VGTShadowEngine:
                 data = ctypes.cast(lParam, ctypes.POINTER(MSLLHOOKSTRUCT)).contents
                 x, y = data.pt.x, data.pt.y
 
-                # O(1) Bound-Check im RAM. Verhindert WinAPI-Aufrufe bei unverändertem Monitor-Kontext.
                 if self._cache_valid and (self._cached_left <= x < self._cached_right) and (self._cached_top <= y < self._cached_bottom):
                     target_x = self._cached_left
                     target_y = self._cached_top
                 else:
-                    # Cache-Miss: Exakte WinAPI-Abfrage auflösen und Cache aktualisieren
                     pt = POINT(x, y)
                     h_monitor = user32.MonitorFromPoint(pt, VGTConfig.MONITOR_DEFAULTTONEAREST)
                     if h_monitor:
@@ -295,7 +305,6 @@ class VGTShadowEngine:
                     else:
                         return user32.CallNextHookEx(self._hook, nCode, wParam, lParam)
 
-                # Sensorik-Logik
                 in_corner = (x <= target_x + VGTConfig.CORNER_SIZE) and (y <= target_y + VGTConfig.CORNER_SIZE)
                 current_time = time.time()
 
@@ -319,15 +328,19 @@ class VGTShadowEngine:
             VGTLifecycleManager.neutralize_hostiles()
             VGTLifecycleManager.ensure_persistence()
 
+        # Typensicheres Auflösen des HMODULE über das nun korrekte 64-Bit-Prototyping
+        h_module = kernel32.GetModuleHandleW(None)
+
         self._hook = user32.SetWindowsHookExW(
             VGTConfig.WH_MOUSE_LL,
             self._hook_wrapper,
-            kernel32.GetModuleHandleW(None),
+            h_module,
             0
         )
 
         if not self._hook:
-            raise WinAPIException("Low-Level Windows Mouse Hook konnte nicht instanziiert werden.")
+            error_code = kernel32.GetLastError()
+            raise WinAPIException(f"Low-Level Windows Mouse Hook konnte nicht instanziiert werden. System-Fehlercode: {error_code} (0x{error_code:X})")
 
         try:
             msg = wintypes.MSG()
@@ -335,7 +348,8 @@ class VGTShadowEngine:
                 user32.TranslateMessage(ctypes.byref(msg))
                 user32.DispatchMessageW(ctypes.byref(msg))
         finally:
-            user32.UnhookWindowsHookEx(self._hook)
+            if self._hook:
+                user32.UnhookWindowsHookEx(self._hook)
 
 # ==============================================================================
 # ENTRY POINT
